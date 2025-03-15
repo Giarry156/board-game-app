@@ -1,0 +1,19 @@
+{
+  "name": "board-game-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Giarry156/board-game-app.git"
+  },
+  "author": "Giarry156",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Giarry156/board-game-app/issues"
+  },
+  "homepage": "https://github.com/Giarry156/board-game-app#readme"
+}
