@@ -1,0 +1,7 @@
+node_modules
+build
+prisma/generated
+prisma/migrations
+prisma/*.svg
+package-lock.json
+.env

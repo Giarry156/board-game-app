@@ -1,0 +1,38 @@
+version: "3.8"
+
+networks:
+  my_network:
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+
+volumes:
+  db_data:
+    driver: local
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: my-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "MySuperStrongP4ss!"
+      MSSQL_PID: "Express"
+    networks:
+      my_network:
+        ipv4_address: 192.168.1.10
+    volumes:
+      - db_data:/var/opt/mssql
+
+  app:
+    build: .
+    container_name: my-boardgame-app
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "sqlserver://192.168.1.10:1433;database=boardgames;user=sa;password=MySuperStrongP4ss!;encrypt=false;trustServerCertificate=true;"
+    depends_on:
+      - db
+    networks:
+      my_network:
+        ipv4_address: 192.168.1.20
