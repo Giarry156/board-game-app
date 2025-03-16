@@ -51,7 +51,7 @@ A minimal REST API for managing a board game collection. This project demonstrat
 └── README.md          # Project documentation
 ```
 
-Below is the ER diagram:
+Below is the ER diagram:<br>
 <img src="./app_erd.svg" alt="Image not found." width="300">
 
 ## Installation
