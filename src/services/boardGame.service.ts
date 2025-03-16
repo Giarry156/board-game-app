@@ -18,14 +18,14 @@ export default class BoardGameService {
   }
 
   /**
-   * Retrieves a board game by its code.
-   * @param code The code of the board game to retrieve.
+   * Retrieves a board game by its id.
+   * @param id The id of the board game to retrieve.
    * @returns The retrieved board game, or null if it does not exist.
    * @throws {HttpError} If the board game does not exist, a 404 error is thrown.
    */
-  public async getBoardGame(code: string) {
+  public async getBoardGame(id: number) {
     // Retrieving the board game.
-    const boardGame = await this.boardGameRepository.findBoardGameByCode(code);
+    const boardGame = await this.boardGameRepository.findBoardGameById(id);
 
     // Throwing an error if the board game does not exist.
     if (!boardGame) {
@@ -45,25 +45,36 @@ export default class BoardGameService {
     code: string;
     title: string;
     numberOfPlayers: number;
-    duration: number;
+    playTime: number;
     publisher: string;
   }) {
+    // Checking if there is a boardgame with the same code.
+    const boardGameWithSameCode =
+      await this.boardGameRepository.findBoardGameByCode(data.code);
+
+    if (boardGameWithSameCode) {
+      throw createHttpError(
+        409,
+        "Board game with the same code already exists."
+      );
+    }
+
     // Creating the board game.
     return await this.boardGameRepository.createBoardGame(data);
   }
 
   public async updateBoardGame(
-    code: string,
+    id: number,
     data: {
       code?: string;
       title?: string;
       numberOfPlayers?: number;
-      duration?: number;
+      playTime?: number;
       publisher?: string;
     }
   ) {
     // Retrieving board game.
-    const boardGame = await this.getBoardGame(code);
+    const boardGame = await this.getBoardGame(id);
 
     // Checking if there is a boardgame with the same code if the code is being updated.
     if (data.code) {
@@ -82,9 +93,9 @@ export default class BoardGameService {
     return await this.boardGameRepository.updateBoardGame(boardGame.id, data);
   }
 
-  public async deleteBoardGame(code: string) {
+  public async deleteBoardGame(id: number) {
     // Retrieving board game.
-    const boardGame = await this.getBoardGame(code);
+    const boardGame = await this.getBoardGame(id);
 
     // Deleting the board game.
     return await this.boardGameRepository.deleteBoardGame(boardGame.id);

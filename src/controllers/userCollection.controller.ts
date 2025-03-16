@@ -43,13 +43,13 @@ export default class userCollectionController {
       addBoardGameToUserCollectionValidator.parse(req.body);
 
       // Deconstructuring the request body.
-      const { boardGameCode } = req.body;
+      const { boardGameId } = req.body;
 
       // Creating a new board game.
       const data =
         await this.userCollectionService.addBoardGameInUserCollection({
           userId: req.user?.id as number,
-          boardGameCode,
+          boardGameId,
         });
 
       res.status(201).json({ data });
@@ -68,13 +68,13 @@ export default class userCollectionController {
       removeBoardGameFromUserCollectionValidator.parse(req.body);
 
       // Deconstructuring the request body.
-      const { boardGameCode } = req.body;
+      const { boardGameId } = req.body;
 
       // Creating a new board game.
       const data =
         await this.userCollectionService.removeBoardGameFromUserCollection({
           userId: req.user?.id as number,
-          boardGameCode,
+          boardGameId,
         });
 
       res.status(200).json({ data });

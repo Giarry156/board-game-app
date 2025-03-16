@@ -1,6 +1,11 @@
 // Importing: Classes.
-import { BoardGame } from "@prisma/client";
+import { BoardGame, UserCollection } from "@prisma/client";
 import Repository from "./repository";
+
+// Defining types.
+type UserCollectionWithBoardGame = UserCollection & {
+  boardGame: BoardGame;
+};
 
 // Defining interfaces.
 interface AddBoardGameToUserCollectionData {
@@ -13,21 +18,23 @@ interface RemoveBoardGameFromUserCollectionData {
 }
 
 interface IUserCollectionRepository {
-  findUserCollection(id: number): Promise<BoardGame[]>;
+  findUserCollectionsByUserId(
+    userId: number
+  ): Promise<UserCollectionWithBoardGame[]>;
   findUserCollectionByIdAndUserId(
     id: number,
     userId: number
-  ): Promise<BoardGame | null>;
-  findBoardGameInUserCollection(
+  ): Promise<UserCollectionWithBoardGame | null>;
+  findUserCollectionByUserIdAndBoardGameId(
     userId: number,
     boardGameId: number
-  ): Promise<BoardGame | null>;
+  ): Promise<UserCollectionWithBoardGame | null>;
   addBoardGameToUserCollection(
     data: AddBoardGameToUserCollectionData
-  ): Promise<BoardGame>;
+  ): Promise<UserCollectionWithBoardGame>;
   removeBoardGameFromUserCollection(
     data: RemoveBoardGameFromUserCollectionData
-  ): Promise<BoardGame>;
+  ): Promise<UserCollectionWithBoardGame>;
 }
 
 // Defining repository.
@@ -43,33 +50,29 @@ export default class UserCollectionRepository
    * Retrieves a list of all board games in the user's collection.
    * @returns A list of board games.
    */
-  async findUserCollection(userId: number): Promise<BoardGame[]> {
-    return (
-      await this.db.userCollection.findMany({
-        include: { boardGame: true },
-        where: { userId: userId },
-      })
-    ).map((userCollection) => userCollection.boardGame);
+  async findUserCollectionsByUserId(
+    userId: number
+  ): Promise<UserCollectionWithBoardGame[]> {
+    return await this.db.userCollection.findMany({
+      include: { boardGame: true },
+      where: { userId },
+    });
   }
 
   /**
    * Retrieves a board game in the user's collection by its ID and the user's ID.
-   * @param id The ID of the board game.
+   * @param id The ID of the user's collection record.
    * @param userId The ID of the user.
    * @returns The retrieved board game, or null if it does not exist.
    */
   async findUserCollectionByIdAndUserId(
     id: number,
     userId: number
-  ): Promise<BoardGame | null> {
-    return (
-      (
-        await this.db.userCollection.findFirst({
-          include: { boardGame: true },
-          where: { id, userId },
-        })
-      )?.boardGame || null
-    );
+  ): Promise<UserCollectionWithBoardGame | null> {
+    return await this.db.userCollection.findFirst({
+      include: { boardGame: true },
+      where: { id, userId },
+    });
   }
 
   /**
@@ -78,18 +81,14 @@ export default class UserCollectionRepository
    * @param boardGameId The ID of the board game.
    * @returns The retrieved board game, or null if it does not exist.
    */
-  async findBoardGameInUserCollection(
+  async findUserCollectionByUserIdAndBoardGameId(
     userId: number,
     boardGameId: number
-  ): Promise<BoardGame | null> {
-    return (
-      (
-        await this.db.userCollection.findFirst({
-          include: { boardGame: true },
-          where: { userId, boardGameId },
-        })
-      )?.boardGame || null
-    );
+  ): Promise<UserCollectionWithBoardGame | null> {
+    return await this.db.userCollection.findFirst({
+      include: { boardGame: true },
+      where: { userId, boardGameId },
+    });
   }
 
   /**
@@ -99,13 +98,11 @@ export default class UserCollectionRepository
    */
   async addBoardGameToUserCollection(
     data: AddBoardGameToUserCollectionData
-  ): Promise<BoardGame> {
-    return (
-      await this.db.userCollection.create({
-        include: { boardGame: true },
-        data,
-      })
-    ).boardGame;
+  ): Promise<UserCollectionWithBoardGame> {
+    return await this.db.userCollection.create({
+      include: { boardGame: true },
+      data,
+    });
   }
 
   /**
@@ -115,12 +112,10 @@ export default class UserCollectionRepository
    */
   async removeBoardGameFromUserCollection({
     id,
-  }: RemoveBoardGameFromUserCollectionData): Promise<BoardGame> {
-    return (
-      await this.db.userCollection.delete({
-        include: { boardGame: true },
-        where: { id },
-      })
-    ).boardGame;
+  }: RemoveBoardGameFromUserCollectionData): Promise<UserCollectionWithBoardGame> {
+    return await this.db.userCollection.delete({
+      include: { boardGame: true },
+      where: { id },
+    });
   }
 }

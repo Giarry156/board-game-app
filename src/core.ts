@@ -20,12 +20,14 @@ import swaggerOptions from "./config/swagger";
 export default class Core {
   private app: express.Application;
 
-  constructor() {
+  constructor(inputPort?: number) {
     // Setting up application.
     this.app = express();
     this.setApplication(this.app);
-    this.app.listen(process.env.PORT || 3000, () => {
-      console.log(`Server is running on port ${process.env.PORT || 3000}`);
+
+    const port = inputPort || process.env.PORT || 3000;
+    this.app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
     });
   }
 

@@ -11,7 +11,7 @@ const router = Router();
 
 // Defining routes.
 router.use("/users", userRouter);
-router.use("/boardGames", boardGameRouter);
+router.use("/board-games", boardGameRouter);
 router.use("/collection", userCollectionRouter);
 
 // Exporting router.

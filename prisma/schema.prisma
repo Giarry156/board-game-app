@@ -9,6 +9,11 @@ generator client {
   binaryTargets = ["native", "linux-musl"]
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../app_erd.svg"
+}
+
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
@@ -16,19 +21,19 @@ datasource db {
 
 model User {
   id             Int              @id @default(autoincrement())
-  name           String
   email          String           @unique
   password       String
+  name           String?
   UserCollection UserCollection[]
 }
 
 model BoardGame {
   id              Int              @id @default(autoincrement())
   code            String           @unique
-  title           String
-  numberOfPlayers Int
-  duration        Int
-  publisher       String
+  title           String?
+  numberOfPlayers Int?
+  playTime        Int?
+  publisher       String?
   UserCollection  UserCollection[]
 }
 

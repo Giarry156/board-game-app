@@ -4,14 +4,14 @@ import { describe } from "@jest/globals";
 import crypto from "crypto";
 
 // Importing: Core.
-import core from "..";
+import Core from "../src/core";
 
 // Retrieving the application.
-const app = core.getApplication();
+const app = new Core(3002).getApplication();
 
 // Defining tests.
 describe('API Users"', () => {
-  describe("POST /api/users", () => {
+  describe("POST /api/users/register", () => {
     const randomEmail =
       crypto
         .createHash("sha256")

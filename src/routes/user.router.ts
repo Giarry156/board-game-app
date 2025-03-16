@@ -13,7 +13,7 @@ const userController = new UserController();
 // Defining routes.
 /**
  * @swagger
- * /api/register:
+ * /api/users/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Users]

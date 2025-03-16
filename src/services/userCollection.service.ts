@@ -14,14 +14,14 @@ export default class UserCollectionService {
 
   /**
    * Retrieves a list of all board games in the user's collection.
-   * @param id The ID of the user.
+   * @param userId The ID of the user.
    * @returns A list of board games.
    * @throws {HttpError} If the board game does not exist, a 404 error is thrown.
    */
-  public async getUserCollection(id: number) {
+  public async getUserCollection(userId: number) {
     // Retrieving the board game.
     const userCollection =
-      await this.userCollectionRepository.findUserCollection(id);
+      await this.userCollectionRepository.findUserCollectionsByUserId(userId);
 
     // Throwing an error if the board game does not exist.
     if (!userCollection) {
@@ -29,22 +29,22 @@ export default class UserCollectionService {
     }
 
     // Returning the board game.
-    return userCollection;
+    return userCollection.map((userCollection) => userCollection.boardGame);
   }
 
   /**
    * Adds a board game to a user's collection.
-   * @param data An object containing the user's ID and the board game code.
+   * @param data An object containing the user's ID and the board game id.
    * @returns The added board game in the user's collection.
    * @throws {HttpError} If the board game does not exist, a 404 error is thrown.
    */
   public async addBoardGameInUserCollection(data: {
     userId: number;
-    boardGameCode: string;
+    boardGameId: number;
   }) {
     // Checking if the board game exists.
-    const boardGame = await this.boardGameRepository.findBoardGameByCode(
-      data.boardGameCode
+    const boardGame = await this.boardGameRepository.findBoardGameById(
+      data.boardGameId
     );
 
     // Throwing an error if the board game does not exist.
@@ -54,7 +54,7 @@ export default class UserCollectionService {
 
     // Checking if the user already has the board game in its collection.
     const userCollection =
-      await this.userCollectionRepository.findBoardGameInUserCollection(
+      await this.userCollectionRepository.findUserCollectionByUserIdAndBoardGameId(
         data.userId,
         boardGame.id
       );
@@ -68,25 +68,29 @@ export default class UserCollectionService {
     }
 
     // Creating the board game.
-    return await this.userCollectionRepository.addBoardGameToUserCollection({
-      userId: data.userId,
-      boardGameId: boardGame.id,
-    });
+    const operationData =
+      await this.userCollectionRepository.addBoardGameToUserCollection({
+        userId: data.userId,
+        boardGameId: boardGame.id,
+      });
+
+    // Returning the board game.
+    return operationData.boardGame;
   }
 
   /**
    * Removes a board game from a user's collection.
-   * @param data An object containing the user's ID and the board game code.
+   * @param data An object containing the user's ID and the board game id.
    * @throws {HttpError} If the board game does not exist or if the user does not have the board game in their collection, a 404 error is thrown.
    * @returns The removed board game from the user's collection.
    */
   public async removeBoardGameFromUserCollection(data: {
     userId: number;
-    boardGameCode: string;
+    boardGameId: number;
   }) {
     // Checking if the board game exists.
-    const boardGame = await this.boardGameRepository.findBoardGameByCode(
-      data.boardGameCode
+    const boardGame = await this.boardGameRepository.findBoardGameById(
+      data.boardGameId
     );
 
     // Throwing an error if the board game does not exist.
@@ -96,7 +100,7 @@ export default class UserCollectionService {
 
     // Checking if the user has the board game in its collection.
     const userCollection =
-      await this.userCollectionRepository.findBoardGameInUserCollection(
+      await this.userCollectionRepository.findUserCollectionByUserIdAndBoardGameId(
         data.userId,
         boardGame.id
       );
@@ -107,10 +111,12 @@ export default class UserCollectionService {
     }
 
     // Removing the board game from the user collection.
-    return await this.userCollectionRepository.removeBoardGameFromUserCollection(
-      {
+    const operationData =
+      await this.userCollectionRepository.removeBoardGameFromUserCollection({
         id: userCollection.id,
-      }
-    );
+      });
+
+    // Returning the board game.
+    return operationData.boardGame;
   }
 }

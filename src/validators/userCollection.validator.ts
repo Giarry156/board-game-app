@@ -3,11 +3,11 @@ import { z } from "zod";
 
 // Defining validators.
 const addBoardGameToUserCollectionValidator = z.object({
-  boardGameCode: z.string().nonempty(),
+  boardGameId: z.number().int(),
 });
 
 const removeBoardGameFromUserCollectionValidator = z.object({
-  boardGameCode: z.string().nonempty(),
+  boardGameId: z.number().int(),
 });
 
 export {

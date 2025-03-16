@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from "express";
 import boardGameService from "../services/boardGame.service";
 import {
   createBoardGameValidator,
+  deleteBoardGameValidator,
   getBoardGameValidator,
   updateBoardGameValidator,
 } from "../validators/boardGame.validator";
@@ -36,8 +37,13 @@ export default class boardGameController {
     next: NextFunction
   ) => {
     try {
+      // Validating the request params.
+      getBoardGameValidator.parse({ id: Number(req.params.id) });
+
       // Retrieving the board game.
-      const data = await this.boardGameService.getBoardGame(req.params.code);
+      const data = await this.boardGameService.getBoardGame(
+        Number(req.params.id)
+      );
 
       // Returning the board game.
       res.status(200).json({ data });
@@ -56,14 +62,14 @@ export default class boardGameController {
       createBoardGameValidator.parse(req.body);
 
       // Deconstructuring the request body.
-      const { code, title, numberOfPlayers, duration, publisher } = req.body;
+      const { code, title, numberOfPlayers, playTime, publisher } = req.body;
 
       // Creating a new board game.
       const data = await this.boardGameService.createBoardGame({
         code,
         title,
         numberOfPlayers,
-        duration,
+        playTime,
         publisher,
       });
 
@@ -81,18 +87,22 @@ export default class boardGameController {
   ) => {
     try {
       // Validating the request body.
-      updateBoardGameValidator.parse(req.body);
+      updateBoardGameValidator.parse({
+        id: Number(req.params.id),
+        ...req.body,
+      });
 
       // Deconstructuring the request body.
-      const { title, numberOfPlayers, duration, publisher } = req.body;
+      const { code, title, numberOfPlayers, playTime, publisher } = req.body;
 
       // Updating the board game.
       const data = await this.boardGameService.updateBoardGame(
-        req.params.code,
+        Number(req.params.id),
         {
+          code,
           title,
           numberOfPlayers,
-          duration,
+          playTime,
           publisher,
         }
       );
@@ -110,8 +120,13 @@ export default class boardGameController {
     next: NextFunction
   ) => {
     try {
+      // Validating the request params.
+      deleteBoardGameValidator.parse({ id: Number(req.params.id) });
+
       // Deleting the board game.
-      const data = await this.boardGameService.deleteBoardGame(req.params.code);
+      const data = await this.boardGameService.deleteBoardGame(
+        Number(req.params.id)
+      );
 
       // Returning the board game.
       res.status(200).json({ data });
