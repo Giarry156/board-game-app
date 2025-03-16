@@ -52,7 +52,7 @@ A minimal REST API for managing a board game collection. This project demonstrat
 ```
 
 Below is the ER diagram:<br>
-<img src="./app_erd.svg" alt="Image not found." width="300">
+<img src="./app_erd.svg" alt="Image not found." width="200">
 
 ## Installation
 
