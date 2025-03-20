@@ -74,6 +74,7 @@ Below is the ER diagram:<br>
 - Node.js (>=18)
 - npm
 - Docker and Docker Compose
+- SQL Server (required for data persistence; can be installed locally or run as a container)
 
 ### 🛠️ Local Setup
 
