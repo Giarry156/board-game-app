@@ -9,9 +9,8 @@ A minimal REST API for managing a board game collection. This project demonstrat
 - [Technologies](#technologies)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Docker Setup](#docker-setup)
-- [Testing](#testing)
+- [Usage](#usage)
 - [License](#license)
 
 ## 📖 Project Overview
