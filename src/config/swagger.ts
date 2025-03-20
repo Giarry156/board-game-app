@@ -1,6 +1,55 @@
 // Importing: Dependencies.
 import { SwaggerOptions } from "swagger-ui-express";
 
+// Defining components.
+const swaggerSchemas = {
+  BoardGame: {
+    type: "object",
+    properties: {
+      code: { type: "string" },
+      title: { type: "string" },
+      numberOfPlayers: { type: "number" },
+      playTime: { type: "number" },
+      publisher: { type: "string" },
+    },
+  },
+  RegisterResponseData: {
+    type: "object",
+    properties: {
+      id: { type: "number" },
+      name: { type: "string" },
+      email: { type: "string" },
+    },
+  },
+  ValidationErrorInfo: {
+    type: "object",
+    properties: {
+      validation: { type: "string" },
+      code: { type: "string" },
+      message: { type: "string" },
+      path: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+      },
+    },
+  },
+  ErrorResponse: {
+    type: "object",
+    properties: {
+      status: { type: "number" },
+      message: { type: "string" },
+      info: {
+        type: "array",
+        items: {
+          oneOf: [{ $ref: "#/components/schemas/ValidationErrorInfo" }],
+        },
+      },
+    },
+  },
+};
+
 // Defining options.
 const swaggerOptions: SwaggerOptions = {
   definition: {
@@ -17,6 +66,7 @@ const swaggerOptions: SwaggerOptions = {
           scheme: "basic",
         },
       },
+      schemas: swaggerSchemas,
     },
     servers: [
       {

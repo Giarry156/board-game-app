@@ -23,8 +23,18 @@ const userCollectionRouter = Router();
  *     responses:
  *       200:
  *         description: User collection retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/BoardGame'
  *       401:
  *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 userCollectionRouter.get(
   "/",
@@ -52,14 +62,34 @@ userCollectionRouter.get(
  *     responses:
  *       200:
  *         description: Board game added to user collection
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/BoardGame'
  *       401:
  *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
  *         description: Board game not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       409:
  *         description: Board game already in user collection
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 userCollectionRouter.post(
   "/",
@@ -87,12 +117,28 @@ userCollectionRouter.post(
  *     responses:
  *       200:
  *         description: Board game removed from user collection
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/BoardGame'
  *       401:
  *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       404:
  *         description: Board game not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       500:
  *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 userCollectionRouter.delete(
   "/",

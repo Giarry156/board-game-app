@@ -30,6 +30,8 @@ A minimal REST API for managing a board game collection. This project demonstrat
 - **Prisma:** An ORM that simplifies database interactions with type safety and migration management.
 - **Passport:** Manages user authentication.
 - **Zod:** Validates input data to ensure it meets the required schema.
+- **Docker & Docker Compose:** Enable a containerized development and testing environment, making the project easier to configure, deploy, and share.
+- **Jest & Supertest:**: Used for testing E2E the application apis to maintain code quality.
 
 ## Project Structure
 
@@ -60,6 +62,7 @@ Below is the ER diagram:<br>
 
 - Node.js (>=18)
 - npm
+- Docker and Docker Compose
 
 ### Local Setup
 
@@ -80,7 +83,7 @@ Below is the ER diagram:<br>
 
    ```env
    DATABASE_URL="sqlserver://sa:YourStrong@Passw0rd@localhost:1433;database=boardgames;encrypt=true;trustServerCertificate=true"
-   PORT=3000 # Default in the code 3000
+   PORT=3000 # Default in the code 3000 if not setted
    ```
 
 4. **Run Prisma migrations and generate the client:**
@@ -95,13 +98,4 @@ The API will be available at http://localhost:3000. Use tools like Postman or In
 
 ### Available Endpoints
 
-- **POST /api/register** - Register a new user.
-- **GET /api/games** - Retrieve all board games.
-- **POST /api/games** - Create a new board game.
-- **PUT /api/games/:id** - Update a board game.
-- **DELETE /api/games/:id** - Delete a board game.
-- **POST /api/collection** - Add a board game to a user's collection.
-- **DELETE /api/collection/:id** - Remove a board game from the collection.
-- **GET /api/collection** - List all board games in a user's collection.
-
-You can find complete docs on http://localhost:3000/docs after the application will run up.
+You can find complete list of apis docs on http://localhost:3000/api-docs after the application will run up.
