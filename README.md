@@ -94,7 +94,7 @@ Below is the ER diagram:<br>
 3. **Configure environment variables: Create a .env file in the root directory with variables such as:**
 
    ```env
-   DATABASE_URL="sqlserver://sa:YourStrong@Passw0rd@localhost:1433;database=boardgames;encrypt=true;trustServerCertificate=true"
+   DATABASE_URL="sqlserver://sa:YourStrong@Passw0rd@localhost:1433;database=boardgames;encrypt=false;trustServerCertificate=true"
    PORT=3000 # Default in the code 3000 if not setted
    ```
 
