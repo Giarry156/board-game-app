@@ -98,19 +98,25 @@ Below is the ER diagram:<br>
    PORT=3000 # Default in the code 3000 if not setted
    ```
 
-4. **Run Prisma migrations and generate the client:**
+4. **Run Prisma and generate the client:**
 
    ```bash
    npx prisma generate
    ```
 
-5. Start the application:
+5. **Align the database selected with the Prisma schema:**
+
+   ```bash
+   prisma db push
+   ```
+
+6. **Start the application:**
 
    ```bash
    npm run start
    ```
 
-6. The project includes end-to-end tests to ensure code quality. Run the tests using:
+7. **The project includes end-to-end tests to ensure code quality. Run the tests using:**
 
    ```bash
    npm run test

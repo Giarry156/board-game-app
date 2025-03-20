@@ -9,11 +9,6 @@ generator client {
   binaryTargets = ["native", "linux-musl"]
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../app_erd.svg"
-}
-
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
